@@ -28,7 +28,7 @@ The package will automatically register itself.
 You can publish the migration with:
 
 ```bash
-php artisan vendor:publish --provider=BeyondCode\Comments\CommentsServiceProvider --tag="migrations"
+php artisan vendor:publish --provider="BeyondCode\Comments\CommentsServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the media-table by running the migrations:
@@ -40,7 +40,7 @@ php artisan migrate
 You can publish the config-file with:
 
 ```bash
-php artisan vendor:publish --provider=BeyondCode\Comments\CommentsServiceProvider --tag="config"
+php artisan vendor:publish --provider="BeyondCode\Comments\CommentsServiceProvider" --tag="config"
 ```
 
 ## Usage
