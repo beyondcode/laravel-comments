@@ -52,8 +52,8 @@ To let your models be able to receive comments, add the `HasComments` trait to t
 ``` php
 namespace App\Models;
 
-use Beyondcode\Comments\HasComments;
 use Illuminate\Database\Eloquent\Model;
+use BeyondCode\Comments\Traits\HasComments;
 
 class Post extends Model
 {
