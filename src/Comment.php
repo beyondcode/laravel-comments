@@ -43,6 +43,15 @@ class Comment extends Model
 
         return $this;
     }
+  
+    public function disapprove()
+    {
+        $this->update([
+            'is_approved' => false,
+        ]);
+
+        return $this;
+    }
 
     protected function getAuthModelName()
     {
