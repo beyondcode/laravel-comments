@@ -16,7 +16,7 @@ class CreateCommentsTable extends Migration
             $table->morphs('commentable');
             $table->text('comment');
             $table->boolean('is_approved')->default(false);
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }
