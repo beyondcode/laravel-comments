@@ -1,8 +1,6 @@
 # Add comments to your Laravel application
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcode/laravel-comments.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-comments)
-[![Build Status](https://img.shields.io/travis/beyondcode/laravel-comments/master.svg?style=flat-square)](https://travis-ci.org/beyondcode/laravel-comments)
-[![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-comments.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-comments)
 [![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-comments.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-comments)
 
 Add the ability to associate comments to your Laravel Eloquent models. The comments can be approved and nested.
@@ -115,9 +113,9 @@ class User extends Authenticatable implements Commentator
      */
     public function needsCommentApproval($model): bool
     {
-        return false;    
+        return false;
     }
-    
+
 }
 ```
 
@@ -138,6 +136,16 @@ $comments = $post->comments;
 $approved = $post->comments()->approved()->get();
 
 ```
+
+### Nesting Comments
+
+`BeyondCode\Comments\Comment` itself implements the `HasComments` trait, so you can comment on a comment and therefore nest them:
+
+```php
+$comment = BeyondCode\Comments\Comment::first();
+$comment->commentAsUser($user, "Hey there!");
+```
+
 
 ### Testing
 
