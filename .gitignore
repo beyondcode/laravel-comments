@@ -5,3 +5,5 @@ docs
 vendor
 coverage
 coverage.clover
+.phpunit.result.cache
+.phpunit.cache/
