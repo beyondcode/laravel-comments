@@ -43,7 +43,7 @@ trait HasComments
 
         $comment = new $commentClass([
             'comment' => $comment,
-            'is_approved' => ($user instanceof Commentator) ? ! $user->needsCommentApproval($this) : false,
+            'is_approved' => ($user instanceof Commentator) ? !$user->needsCommentApproval($this) : false,
             'user_id' => is_null($user) ? null : $user->getKey(),
             'commentable_id' => $this->getKey(),
             'commentable_type' => get_class(),
@@ -51,5 +51,4 @@ trait HasComments
 
         return $this->comments()->save($comment);
     }
-
 }

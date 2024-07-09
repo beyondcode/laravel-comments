@@ -2,9 +2,13 @@
 
 namespace BeyondCode\Comments\Tests;
 
+use BeyondCode\Comments\Events\CommentAdded;
+use BeyondCode\Comments\Events\CommentDeleted;
 use BeyondCode\Comments\Tests\Models\ApprovedUser;
 use BeyondCode\Comments\Tests\Models\Post;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Event;
 
 class CommentsTest extends TestCase
 {
@@ -144,5 +148,70 @@ class CommentsTest extends TestCase
         $this->assertCount(1, $post->comments()->approved()->get());
 
         $this->assertSame('this comment is approved', $post->comments()->approved()->first()->comment);
+    }
+
+    /** @test */
+    public function comments_are_deleted_when_posts_are_deleted()
+    {
+        $post = Post::create([
+            'title' => 'Some post'
+        ]);
+
+        $comment = $post->comment('this comment will be deleted');
+
+        $post->delete();
+
+        $this->assertFalse($comment->exists());
+    }
+
+    /** @test */
+    public function replies_are_deleted_when_post_comments_are_deleted()
+    {
+        config(['comments.delete_replies_along_comments' => true]);
+
+        $post = Post::create([
+            'title' => 'Some post'
+        ]);
+
+        $comment = $post->comment('this comment will be deleted');
+        $reply = $comment->comment('this comment will be deleted too');
+
+        $comment->delete();
+
+        $this->assertFalse($reply->exists());
+    }
+
+    /** @test */
+    public function comment_added_event_is_dispatched_when_comment_is_created()
+    {
+        Event::fake([CommentAdded::class]);
+
+        $post = Post::create([
+            'title' => 'Some post'
+        ]);
+
+        $comment = $post->comment('this comment is added');
+
+        Event::assertDispatched(CommentAdded::class, function ($event) use ($comment) {
+            return $event->comment->is($comment);
+        });
+    }
+
+    /** @test */
+    public function comment_deleted_event_is_dispatched_when_comment_is_deleted()
+    {
+        Event::fake([CommentDeleted::class]);
+
+        $post = Post::create([
+            'title' => 'Some post'
+        ]);
+
+        $comment = $post->comment('this comment is added');
+
+        $comment->delete();
+
+        Event::assertDispatched(CommentDeleted::class, function ($event) use ($comment) {
+            return $event->comment->is($comment);
+        });
     }
 }

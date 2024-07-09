@@ -2,6 +2,8 @@
 
 namespace BeyondCode\Comments;
 
+use BeyondCode\Comments\Events\CommentAdded;
+use BeyondCode\Comments\Events\CommentDeleted;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Comments\Traits\HasComments;
@@ -19,6 +21,25 @@ class Comment extends Model
     protected $casts = [
         'is_approved' => 'boolean'
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(function (self $model) {
+            if (config('comments.delete_replies_along_comments')) {
+                $model->comments()->delete();
+            }
+        });
+
+        static::deleted(function (self $model) {
+            CommentDeleted::dispatch($model);
+        });
+
+        static::created(function (self $model) {
+            CommentAdded::dispatch($model);
+        });
+    }
 
     public function scopeApproved($query)
     {
@@ -43,7 +64,7 @@ class Comment extends Model
 
         return $this;
     }
-  
+
     public function disapprove()
     {
         $this->update([
@@ -65,5 +86,4 @@ class Comment extends Model
 
         throw new Exception('Could not determine the commentator model name.');
     }
-
 }
