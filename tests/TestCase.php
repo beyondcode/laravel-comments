@@ -2,13 +2,12 @@
 
 namespace BeyondCode\Comments\Tests;
 
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Database\Schema\Blueprint;
 use BeyondCode\Comments\CommentsServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Auth\User;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
@@ -38,7 +37,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function setUpDatabase()
     {
-        include_once __DIR__ . '/../database/migrations/create_comments_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_comments_table.php.stub';
 
         (new \CreateCommentsTable())->up();
 
@@ -54,8 +53,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         User::forceCreate([
             'name' => 'User',
             'email' => 'user@email.com',
-            'password' => 'test'
+            'password' => 'test',
         ]);
     }
-
 }

@@ -6,7 +6,6 @@ use BeyondCode\Comments\Events\CommentAdded;
 use BeyondCode\Comments\Events\CommentDeleted;
 use BeyondCode\Comments\Tests\Models\ApprovedUser;
 use BeyondCode\Comments\Tests\Models\Post;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Event;
 
@@ -16,7 +15,7 @@ class CommentsTest extends TestCase
     public function users_without_commentator_interface_do_not_get_approved()
     {
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $post->comment('this is a comment');
@@ -30,7 +29,7 @@ class CommentsTest extends TestCase
     public function models_can_store_comments()
     {
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $post->comment('this is a comment');
@@ -46,7 +45,7 @@ class CommentsTest extends TestCase
     public function comments_without_users_have_no_relation()
     {
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this is a comment');
@@ -63,7 +62,7 @@ class CommentsTest extends TestCase
         auth()->login($user);
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this is a comment');
@@ -77,7 +76,7 @@ class CommentsTest extends TestCase
         $user = User::first();
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->commentAsUser($user, 'this is a comment');
@@ -91,7 +90,7 @@ class CommentsTest extends TestCase
         $user = User::first();
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this is a comment');
@@ -109,7 +108,7 @@ class CommentsTest extends TestCase
         $user = User::first();
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this is a comment');
@@ -124,7 +123,7 @@ class CommentsTest extends TestCase
         $user = ApprovedUser::first();
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->commentAsUser($user, 'this is a comment');
@@ -138,7 +137,7 @@ class CommentsTest extends TestCase
         $user = ApprovedUser::first();
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $post->comment('this comment is not approved');
@@ -154,7 +153,7 @@ class CommentsTest extends TestCase
     public function comments_are_deleted_when_posts_are_deleted()
     {
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this comment will be deleted');
@@ -170,7 +169,7 @@ class CommentsTest extends TestCase
         config(['comments.delete_replies_along_comments' => true]);
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this comment will be deleted');
@@ -187,7 +186,7 @@ class CommentsTest extends TestCase
         Event::fake([CommentAdded::class]);
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this comment is added');
@@ -203,7 +202,7 @@ class CommentsTest extends TestCase
         Event::fake([CommentDeleted::class]);
 
         $post = Post::create([
-            'title' => 'Some post'
+            'title' => 'Some post',
         ]);
 
         $comment = $post->comment('this comment is added');
