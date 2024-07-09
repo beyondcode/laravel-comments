@@ -4,9 +4,9 @@ namespace BeyondCode\Comments;
 
 use BeyondCode\Comments\Events\CommentAdded;
 use BeyondCode\Comments\Events\CommentDeleted;
+use BeyondCode\Comments\Traits\HasComments;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use BeyondCode\Comments\Traits\HasComments;
 
 class Comment extends Model
 {
@@ -15,11 +15,11 @@ class Comment extends Model
     protected $fillable = [
         'comment',
         'user_id',
-        'is_approved'
+        'is_approved',
     ];
 
     protected $casts = [
-        'is_approved' => 'boolean'
+        'is_approved' => 'boolean',
     ];
 
     public static function boot(): void
@@ -80,7 +80,7 @@ class Comment extends Model
             return config('comments.user_model');
         }
 
-        if (!is_null(config('auth.providers.users.model'))) {
+        if (! is_null(config('auth.providers.users.model'))) {
             return config('auth.providers.users.model');
         }
 
