@@ -148,30 +148,12 @@ $comment->commentAsUser($user, "Hey there!");
 
 #### Deleting Replies
 
-When you delete a comment, you may optionally want to delete all it's nested comments (replies). To do optionally enable this feature, set the `delete_replies_along_comments` config property in the `configs/comments.php` file to `true`.
+When you delete a comment, you may optionally want to delete all its nested comments (replies). To optionally enable this feature, set the `delete_replies_along_comments` config property in the `config/comments.php` file to `true`.
 
 ### Events
 
 When a new comment is added the `BeyondCode\Comments\Events\CommentAdded` event will be dispatched.
 When a comment is deleted the `BeyondCode\Comments\Events\CommentDeleted` event will be dispatched.
-you can listen to these event and do other things as your requirements call for.
-
-_App\Providers\EventServiceProvider_
-
-```php
-use BeyondCode\Comments\Events\CommentAdded;
-use BeyondCode\Comments\Events\CommentDeleted;
-use App\Listeners\InformAdmin;
-
-protected $listen = [
-    CommentAdded::class => [
-        InformAdmin::class,
-    ],
-    CommentDeleted::class => [
-        InformAdmin::class,
-    ],
-];
-```
 
 ### Testing
 
