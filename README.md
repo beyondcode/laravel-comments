@@ -47,7 +47,7 @@ php artisan vendor:publish --provider="BeyondCode\Comments\CommentsServiceProvid
 
 To let your models be able to receive comments, add the `HasComments` trait to the model classes.
 
-``` php
+```php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -146,10 +146,18 @@ $comment = BeyondCode\Comments\Comment::first();
 $comment->commentAsUser($user, "Hey there!");
 ```
 
+#### Deleting Replies
+
+When you delete a comment, you may optionally want to delete all its nested comments (replies). To optionally enable this feature, set the `delete_replies_along_comments` config property in the `config/comments.php` file to `true`.
+
+### Events
+
+When a new comment is added the `BeyondCode\Comments\Events\CommentAdded` event will be dispatched.
+When a comment is deleted the `BeyondCode\Comments\Events\CommentDeleted` event will be dispatched.
 
 ### Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -167,8 +175,8 @@ If you discover any security related issues, please email marcel@beyondco.de ins
 
 ## Credits
 
-- [Marcel Pociot](https://github.com/mpociot)
-- [All Contributors](../../contributors)
+-   [Marcel Pociot](https://github.com/mpociot)
+-   [All Contributors](../../contributors)
 
 ## License
 

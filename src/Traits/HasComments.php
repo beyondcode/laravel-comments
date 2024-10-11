@@ -2,9 +2,8 @@
 
 namespace BeyondCode\Comments\Traits;
 
-
-use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Comments\Contracts\Commentator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasComments
@@ -22,7 +21,6 @@ trait HasComments
     /**
      * Attach a comment to this model.
      *
-     * @param string $comment
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function comment(string $comment)
@@ -33,8 +31,6 @@ trait HasComments
     /**
      * Attach a comment to this model as a specific user.
      *
-     * @param Model|null $user
-     * @param string $comment
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function commentAsUser(?Model $user, string $comment)
@@ -46,10 +42,9 @@ trait HasComments
             'is_approved' => ($user instanceof Commentator) ? ! $user->needsCommentApproval($this) : false,
             'user_id' => is_null($user) ? null : $user->getKey(),
             'commentable_id' => $this->getKey(),
-            'commentable_type' => get_class(),
+            'commentable_type' => get_class($this),
         ]);
 
         return $this->comments()->save($comment);
     }
-
 }
