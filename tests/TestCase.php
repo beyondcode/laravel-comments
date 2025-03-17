@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadLaravelMigrations(['--database' => 'sqlite']);
@@ -39,7 +39,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         include_once __DIR__.'/../database/migrations/create_comments_table.php.stub';
 
-        (new \CreateCommentsTable())->up();
+        (new \CreateCommentsTable)->up();
 
         $this->app['db']->connection()->getSchemaBuilder()->create('posts', function (Blueprint $table) {
             $table->increments('id');
